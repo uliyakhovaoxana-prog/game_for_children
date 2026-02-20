@@ -1,0 +1,99 @@
+w = Desktop.Width
+h = Desktop.Height
+
+GraphicsWindow.Show()
+GraphicsWindow.Title = "Lastele mõeldud mäng" 
+GraphicsWindow.BackgroundColor = "#619bd3" 
+
+capturedShape = "" 
+
+GraphicsWindow.PenColor = "Black"
+GraphicsWindow.PenWidth = 2.5 
+GraphicsWindow.BrushColor = "White"
+boxRect = Shapes.AddRectangle(230, 110)
+Shapes.Move(boxRect, 300, 50)            
+boxOval = Shapes.AddRectangle(230, 110) 
+Shapes.Move(boxOval, 300, 200)
+
+GraphicsWindow.BrushColor = "Black"
+GraphicsWindow.FontSize = 20
+GraphicsWindow.FontName = "Segoe UI"    
+GraphicsWindow.FontBold = "False"
+GraphicsWindow.DrawText(365, 20, "Riistkülik")
+GraphicsWindow.DrawText(385, 170, "Ovaal")
+
+GraphicsWindow.PenColor = "#c4672f"
+GraphicsWindow.PenWidth = 2.5        
+GraphicsWindow.BrushColor = "#e97c3a" 
+myOval = Shapes.AddEllipse(80, 50)
+Shapes.Move(myOval, 90, 70)
+
+GraphicsWindow.PenColor = "Black"  
+GraphicsWindow.BrushColor = "Black"
+myRect = Shapes.AddRectangle(100, 60)
+Shapes.Move(myRect, 80, 220)
+
+GraphicsWindow.BrushColor = "White"
+vastusBox = Shapes.AddRectangle(160, 150)
+Shapes.Move(vastusBox, 560, 70)
+
+GraphicsWindow.BrushColor = "Black"
+GraphicsWindow.DrawText(600, 40, "Vastus")
+
+GraphicsWindow.FontSize = 25
+txtTulemus = Shapes.AddText("")
+Shapes.Move(txtTulemus, 605, 100)
+
+GraphicsWindow.PenColor = "White"    
+GraphicsWindow.PenWidth = 3        
+GraphicsWindow.BrushColor = "#fcc028" 
+myFakeButton = Shapes.AddRectangle(165, 70)
+Shapes.Move(myFakeButton, 558, 235)
+
+GraphicsWindow.BrushColor = "Black" 
+GraphicsWindow.FontSize = 20
+btnText = Shapes.AddText("Kontrolli")
+Shapes.Move(btnText, 603, 255)
+
+GraphicsWindow.MouseDown = OnMouseDown
+GraphicsWindow.MouseMove = OnMouseMove
+GraphicsWindow.MouseUp = OnMouseUp
+
+
+Sub OnMouseDown
+  mx = GraphicsWindow.MouseX
+  my = GraphicsWindow.MouseY
+
+  If (mx >= Shapes.GetLeft(myRect) And mx <= Shapes.GetLeft(myRect) + 100 And my >= Shapes.GetTop(myRect) And my <= Shapes.GetTop(myRect) + 60) Then
+    capturedShape = myRect
+  
+  ElseIf (mx >= Shapes.GetLeft(myOval) And mx <= Shapes.GetLeft(myOval) + 80 And my >= Shapes.GetTop(myOval) And my <= Shapes.GetTop(myOval) + 50) Then
+    capturedShape = myOval
+    
+  ElseIf (mx >= 558 And mx <= 558 + 165 And my >= 235 And my <= 235 + 70) Then
+    OnButtonClicked()
+  EndIf
+EndSub
+
+Sub OnMouseMove
+  If (capturedShape <> "") Then
+    Shapes.Move(capturedShape, GraphicsWindow.MouseX - 40, GraphicsWindow.MouseY - 25)
+  EndIf
+EndSub
+
+Sub OnMouseUp
+  capturedShape = "" 
+EndSub
+
+Sub OnButtonClicked
+  rx = Shapes.GetLeft(myRect)
+  ry = Shapes.GetTop(myRect)
+  ox = Shapes.GetLeft(myOval)
+  oy = Shapes.GetTop(myOval)
+  
+  If (rx > 280 And rx < 500 And ry > 40 And ry < 150 And ox > 280 And ox < 500 And oy > 180 And oy < 300) Then
+    Shapes.SetText(txtTulemus, "Õige!")
+  Else
+    Shapes.SetText(txtTulemus, "Vale!")
+  EndIf
+EndSub
